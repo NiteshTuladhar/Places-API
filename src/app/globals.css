@@ -18,10 +18,45 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: white;
+  overflow: hidden;
+}
+
+.places-container {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 10;
+  width: 300px;
+}
+
+.map-container {
+  width: 100%;
+  height: 100vh;
+}
+
+.combobox-input {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 10px; /* Adjust the gap between columns if needed */
+}
+
+.text-container {
+  height: 100vh;
+  padding: 25px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.loader-spin {
+  margin-top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
