@@ -30,6 +30,7 @@ const PlacesAutocomplete = ({
     setValue(address, false);
     clearSuggestions();
 
+    console.log("🚀 ~ file: autocomp.tsx:28 ~ value:", value);
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
     setSelected({ lat, lng });

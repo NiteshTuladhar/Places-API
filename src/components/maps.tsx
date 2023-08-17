@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import "@reach/combobox/styles.css";
 import PlacesAutocomplete from "./autocomp";
 import { useLoadScript } from "@react-google-maps/api";
+import { PlacesContext } from "../context/placesContext";
 
-const Map = ({ setPlaceId }: any) => {
+const Map = () => {
   const [selected, setSelected] = useState(null);
+  const { setPlaceId } = useContext(PlacesContext) as PlacesContextType;
+
   const [defaultPoint, setDefaultPoint] = useState({
     lat: 44,
     lng: -80,

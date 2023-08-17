@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import Loader from "./loader";
 import { Circles as JsonLoader } from "react-loader-spinner";
 import { JsonViewer } from "@textea/json-viewer";
-("@textea/json-viewer");
+import { PlacesContext } from "@/context/placesContext";
 
-const JSONData = ({ placeId }: any) => {
+const JSONData = () => {
   const isFirstRender = useRef(true);
-  const [dataLoading, setDataLoding] = useState(false);
-  const [jsonData, setJsonData] = useState(null);
+  const { placeId, setDataLoading, jsonData, dataLoading, getPlace } =
+    useContext(PlacesContext) as PlacesContextType;
 
   useEffect(() => {
     //To prevent useEffect from running on initial page load.
@@ -16,17 +16,8 @@ const JSONData = ({ placeId }: any) => {
       isFirstRender.current = false;
       return;
     }
-    setDataLoding(true);
-    setTimeout(() => {
-      axios
-        .get(`http://localhost:3000/api/maps?placeid=${placeId}`)
-        .then((res: any) => {
-          setJsonData(res.data.result);
-        })
-        .then(() => {
-          setDataLoding(false);
-        });
-    }, 1000);
+    setDataLoading(true);
+    getPlace();
   }, [placeId]);
 
   return (
