@@ -6,19 +6,9 @@ import { JsonViewer } from "@textea/json-viewer";
 import { PlacesContext } from "@/context/placesContext";
 
 const JSONData = () => {
-  const isFirstRender = useRef(true);
-  const { placeId, setDataLoading, jsonData, dataLoading, getPlace } =
-    useContext(PlacesContext) as PlacesContextType;
-
-  useEffect(() => {
-    //To prevent useEffect from running on initial page load.
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    setDataLoading(true);
-    getPlace();
-  }, [placeId]);
+  const { jsonData, dataLoading } = useContext(
+    PlacesContext
+  ) as PlacesContextType;
 
   return (
     <div className="text-container">
