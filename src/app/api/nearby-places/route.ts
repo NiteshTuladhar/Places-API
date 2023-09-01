@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import companyDB from "../../../../database/company.json";
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
 // const place_id = "ChIJb6g49BAZ6zkR8OMzRoSH49M";
@@ -16,7 +17,20 @@ export async function GET(request: Request) {
   const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=${keyword}&location=${location}&radius=${radius}&type=${type}&key=${API_KEY}`;
 
   const response = await fetch(url);
-  const mapsData = await response.json();
+  let mapsData = await response.json();
 
+  console.log("json name", companyDB);
+  const newResult = mapsData.results.map((data: any) => {
+    console.log("api name", data.name);
+    console.log(companyDB.some((company) => company.name === data.name));
+    console.log("=============================================_");
+
+    return {
+      ...data,
+      is_client: companyDB.some((company) => company.name === data.name),
+    };
+  });
+
+  mapsData["results"] = newResult;
   return NextResponse.json(mapsData);
 }

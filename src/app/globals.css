@@ -49,9 +49,6 @@ body {
 
 .text-container {
   height: 100vh;
-  padding: 25px;
-  overflow: scroll;
-  overflow-x: hidden;
 }
 .loader-spin {
   margin-top: 50%;
@@ -59,4 +56,16 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.sub-right-container {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.horizontal-space > * + * {
+  margin-left: 0.5rem; /* Adjust this value to control spacing */
 }

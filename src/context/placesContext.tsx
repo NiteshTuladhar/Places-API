@@ -1,14 +1,8 @@
 "use client";
 
-import React, {
-  createContext,
-  FC,
-  useState,
-  Dispatch,
-  useEffect,
-  useRef,
-} from "react";
+import React, { createContext, FC, useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useLoadScript } from "@react-google-maps/api";
 
 export const PlacesContext = createContext<PlacesContextType | null>(null);
 
@@ -18,12 +12,19 @@ const PlacesProvider: FC<Props> = ({ children }) => {
   const [keyword, setKeyword] = useState<string | null>("");
 
   //for json view
-  const [jsonData, setJsonData] = useState<any[] | null>(null);
+  const [jsonData, setJsonData] = useState<any[]>([]);
   const [dataLoading, setDataLoading] = useState<boolean>(false);
 
   const [markerPlaced, setMarkerPlaced] = useState<Coordinates[]>([]);
   const [defaultPoints, setDefaultPoints] = useState<Coordinates | null>(null);
-  const [nearbyPlaces, setNearbyPlaces] = useState<Coordinates[]>([]);
+  const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlaces[]>([]);
+
+  const [user, setUser] = useState<UserType | null>(null);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: apiKey,
+    libraries: ["places"],
+  });
 
   function getPlace() {
     setDataLoading(true);
@@ -52,7 +53,7 @@ const PlacesProvider: FC<Props> = ({ children }) => {
       markerPlaced.length > 0
         ? `${markerPlaced[0].lat}%2C${markerPlaced[0].lng}`
         : `${defaultPoints?.lat}%2C${defaultPoints?.lng}`;
-    const radius = 1500;
+    const radius = user?.radius;
 
     setTimeout(() => {
       axios
@@ -70,6 +71,7 @@ const PlacesProvider: FC<Props> = ({ children }) => {
 
   const isFirstRender = useRef(true);
   const isFirstRender2 = useRef(true);
+  const isFirstRender3 = useRef(true);
 
   //Sets marker positions on the map view after location's jsonData has been fetched
   useEffect(() => {
@@ -77,7 +79,11 @@ const PlacesProvider: FC<Props> = ({ children }) => {
 
     jsonData
       ? jsonData.forEach((each: any) => {
-          geometryList.push(each.geometry.location);
+          geometryList.push({
+            location: each.geometry.location,
+            is_client: each.is_client,
+            name: each.name,
+          });
         })
       : "";
     setNearbyPlaces(geometryList);
@@ -113,9 +119,22 @@ const PlacesProvider: FC<Props> = ({ children }) => {
     getPlace();
   }, [placeId]);
 
+  // set default points to selected user region
+  useEffect(() => {
+    if (isFirstRender3.current) {
+      isFirstRender3.current = false;
+      return;
+    }
+    setDefaultPoints({
+      lat: (user as UserType)?.location.lat,
+      lng: (user as UserType)?.location.lng,
+    });
+  }, [user]);
+
   return (
     <PlacesContext.Provider
       value={{
+        isLoaded,
         apiKey,
         placeId,
         setPlaceId,
@@ -133,6 +152,8 @@ const PlacesProvider: FC<Props> = ({ children }) => {
         setDefaultPoints,
         nearbyPlaces,
         setNearbyPlaces,
+        user,
+        setUser,
       }}
     >
       {children}

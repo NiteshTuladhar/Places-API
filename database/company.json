@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Engineers Hardware",
+    "location": {
+      "lat": "27.6770494",
+      "lng": "85.4333462"
+    }
+  },
+  {
+    "name": "Rajesh Hardware",
+    "location": {
+      "lat": "27.6740724",
+      "lng": "85.39864539999999"
+    }
+  },
+  {
+    "name": "RadhaKrishna Hardware",
+    "location": {
+      "lat": "27.4299743",
+      "lng": "85.03568179999999"
+    }
+  }
+]

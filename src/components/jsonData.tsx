@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef, useContext } from "react";
-import axios from "axios";
+"use client";
+
+import { useContext } from "react";
 import Loader from "./loader";
 import { Circles as JsonLoader } from "react-loader-spinner";
 import { JsonViewer } from "@textea/json-viewer";
@@ -11,20 +12,10 @@ const JSONData = () => {
   ) as PlacesContextType;
 
   return (
-    <div className="text-container">
-      <div
-        style={{
-          display: "flex",
-          marginBottom: "25px",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <p>Google Places API (JSON Format)</p>
-      </div>
+    <div className="text-container" style={{ overflow: "auto" }}>
       {dataLoading ? (
         <Loader Loader={JsonLoader} desc="Processing Data, Please wait" />
-      ) : jsonData ? (
+      ) : jsonData.length > 0 ? (
         <JsonViewer value={jsonData} />
       ) : (
         <p>No Location selected.</p>

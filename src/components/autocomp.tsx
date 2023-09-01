@@ -1,3 +1,5 @@
+"use client";
+
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -12,6 +14,8 @@ import {
 import "@reach/combobox/styles.css";
 import { FormEvent, useContext } from "react";
 import { PlacesContext } from "@/context/placesContext";
+import UserDropDown from "./dropdown.comp";
+import Button from "./button.comp";
 
 const PlacesAutocomplete = () => {
   const {
@@ -22,17 +26,16 @@ const PlacesAutocomplete = () => {
     clearSuggestions,
   } = usePlacesAutocomplete();
 
-  const { setKeyword, setPlaceId, setNearbyPlaces } = useContext(
-    PlacesContext
-  ) as PlacesContextType;
+  const { setKeyword, setPlaceId, setNearbyPlaces, setMarkerPlaced } =
+    useContext(PlacesContext) as PlacesContextType;
 
   const handleSelect = async (address: string) => {
     setValue(address, false);
     clearSuggestions();
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
-    setNearbyPlaces([{ lat, lng }]);
-    // setMarkerPlaced([{ lat, lng }]);
+    // setNearbyPlaces([{ lat, lng }]);
+    setMarkerPlaced([{ lat, lng }]);
     setPlaceId(results[0].place_id);
     // setKeyword("");
   };
@@ -44,8 +47,18 @@ const PlacesAutocomplete = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", gap: "5" }}>
-      <div>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        marginTop: "35px",
+        position: "sticky",
+        top: "0",
+      }}
+    >
+      <div
+        className="horizontal-space"
+        style={{ display: "flex", marginRight: "10px", alignItems: "center" }}
+      >
         <Combobox
           onSelect={handleSelect}
           onSubmit={(e) => {
@@ -53,6 +66,7 @@ const PlacesAutocomplete = () => {
           }}
         >
           <ComboboxInput
+            style={{ border: "1px solid #cccdce" }}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             disabled={!ready}
@@ -68,13 +82,9 @@ const PlacesAutocomplete = () => {
             </ComboboxList>
           </ComboboxPopover>
         </Combobox>
+        <UserDropDown />
+        <Button />
       </div>
-      <button
-        type="submit"
-        style={{ backgroundColor: "#00A8D5", padding: "10px" }}
-      >
-        <p>Submit</p>
-      </button>
     </form>
   );
 };
