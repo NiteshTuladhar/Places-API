@@ -66,4 +66,12 @@ declare global {
     location: Coordinates;
     radius: number;
   };
+
+  interface MarkerProps {
+    open: Coordinates | null;
+    point: NearbyPlaces;
+    marker: string;
+    index: number;
+    handleToggleOpen: (location: Coordinates) => void;
+  }
 }

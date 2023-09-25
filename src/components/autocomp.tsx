@@ -12,10 +12,10 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
-import { FormEvent, useContext } from "react";
-import { PlacesContext } from "@/context/placesContext";
+import { FormEvent } from "react";
 import UserDropDown from "./dropdown.comp";
 import Button from "./button.comp";
+import useAppContext from "@/hooks/useAppContext";
 
 const PlacesAutocomplete = () => {
   const {
@@ -27,7 +27,7 @@ const PlacesAutocomplete = () => {
   } = usePlacesAutocomplete();
 
   const { setKeyword, setPlaceId, setNearbyPlaces, setMarkerPlaced } =
-    useContext(PlacesContext) as PlacesContextType;
+    useAppContext();
 
   const handleSelect = async (address: string) => {
     setValue(address, false);

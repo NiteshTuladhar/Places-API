@@ -41,6 +41,7 @@ const PlacesProvider: FC<Props> = ({ children }) => {
   }
 
   function getNearbyPlaces() {
+    setJsonData([]);
     setDataLoading(true);
 
     //TODO:This needs to be dynamic
@@ -55,18 +56,16 @@ const PlacesProvider: FC<Props> = ({ children }) => {
         : `${defaultPoints?.lat}%2C${defaultPoints?.lng}`;
     const radius = user?.radius;
 
-    setTimeout(() => {
-      axios
-        .get(
-          `http://localhost:3000/api/nearby-places?keyword=${keyword}&type=${type}&location=${location}&radius=${radius}`
-        )
-        .then((res: any) => {
-          setJsonData(res.data.results);
-        })
-        .then(() => {
-          setDataLoading(false);
-        });
-    }, 1000);
+    axios
+      .get(
+        `http://localhost:3000/api/nearby-places?keyword=${keyword}&type=${type}&location=${location}&radius=${radius}`
+      )
+      .then((res: any) => {
+        setJsonData(res.data.results);
+      })
+      .then(() => {
+        setDataLoading(false);
+      });
   }
 
   const isFirstRender = useRef(true);
@@ -86,6 +85,7 @@ const PlacesProvider: FC<Props> = ({ children }) => {
           });
         })
       : "";
+
     setNearbyPlaces(geometryList);
   }, [jsonData]);
 

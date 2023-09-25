@@ -1,15 +1,12 @@
 "use client";
 
-import { useContext } from "react";
 import Loader from "./loader";
 import { Circles as JsonLoader } from "react-loader-spinner";
 import { JsonViewer } from "@textea/json-viewer";
-import { PlacesContext } from "@/context/placesContext";
+import useAppContext from "@/hooks/useAppContext";
 
 const JSONData = () => {
-  const { jsonData, dataLoading } = useContext(
-    PlacesContext
-  ) as PlacesContextType;
+  const { jsonData, dataLoading } = useAppContext();
 
   return (
     <div className="text-container" style={{ overflow: "auto" }}>

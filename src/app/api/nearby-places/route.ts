@@ -19,11 +19,14 @@ export async function GET(request: Request) {
   const response = await fetch(url);
   let mapsData = await response.json();
 
-  console.log("json name", companyDB);
   const newResult = mapsData.results.map((data: any) => {
-    console.log("api name", data.name);
-    console.log(companyDB.some((company) => company.name === data.name));
-    console.log("=============================================_");
+    // console.log("api name", data.name);
+    // console.log(companyDB.some((company) => company.name === data.name));
+    // console.log("=============================================_");
+
+    const a = companyDB.some((company) => {
+      return company.name === data.name;
+    });
 
     return {
       ...data,

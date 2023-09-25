@@ -1,11 +1,10 @@
 "use client";
 
-import { useContext } from "react";
 import PlacesAutocomplete from "./autocomp";
-import { PlacesContext } from "@/context/placesContext";
+import useAppContext from "@/hooks/useAppContext";
 
 const FormComponent = () => {
-  const { isLoaded } = useContext(PlacesContext) as PlacesContextType;
+  const { isLoaded } = useAppContext();
 
   return <div>{!isLoaded ? <p></p> : <PlacesAutocomplete />}</div>;
 };

@@ -19,5 +19,26 @@
       "lat": "27.4299743",
       "lng": "85.03568179999999"
     }
+  },
+  {
+    "name": "Suryabinayak Hardware",
+    "location": {
+      "lat": "27.4299743",
+      "lng": "85.03568179999999"
+    }
+  },
+  {
+    "name": "Old Town Hardware",
+    "location": {
+      "lat": "27.6762009",
+      "lng": "85.4375452"
+    }
+  },
+  {
+    "name": "Kaman Cafe",
+    "location": {
+      "lat": "27.6762009",
+      "lng": "85.4375452"
+    }
   }
 ]

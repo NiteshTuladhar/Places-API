@@ -1,15 +1,11 @@
 "use client";
 
-import { useContext, useState } from "react";
-import {
-  GoogleMap,
-  MarkerF as Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { useState } from "react";
+import { GoogleMap, MarkerF as Marker } from "@react-google-maps/api";
 import "@reach/combobox/styles.css";
-import { PlacesContext } from "../context/placesContext";
 import location from "../../public/location.svg";
-import MarkerInfoPopUp from "./info.comp";
+import useAppContext from "@/hooks/useAppContext";
+import CustomMarker from "./marker";
 
 const Map = () => {
   const greenMarker =
@@ -24,7 +20,7 @@ const Map = () => {
     setMarkerPlaced,
     defaultPoints,
     nearbyPlaces,
-  } = useContext(PlacesContext) as PlacesContextType;
+  } = useAppContext();
 
   const [open, setOpen] = useState<Coordinates | null>(null);
   function placeMarker(e: google.maps.MapMouseEvent) {
@@ -56,7 +52,7 @@ const Map = () => {
             {/* {selected && <Marker position={selected[0]} />} */}
             {nearbyPlaces
               ? nearbyPlaces.map((point, index) => {
-                  let marker = null;
+                  let marker: string = require("../../public/location.svg");
                   if (point.is_client === true) {
                     marker =
                       "https://www.svgrepo.com/show/513552/location-pin.svg";
@@ -65,42 +61,13 @@ const Map = () => {
                       "https://www.svgrepo.com/show/452052/location-marker.svg";
                   }
                   return (
-                    <Marker
-                      position={point.location!}
-                      key={index}
-                      title={point.name}
-                      icon={{
-                        url: marker,
-                        // url: require("../../public/location.svg"),
-                        anchor: new google.maps.Point(17, 46),
-                        scaledSize: new google.maps.Size(37, 37),
-                      }}
-                      onClick={() => {
-                        handleToggleOpen(point.location!);
-                      }}
-                    >
-                      {open?.lat === point.location?.lat &&
-                        open?.lng === point.location?.lng && (
-                          // <MarkerInfoPopUp
-                          //   name={point.name}
-                          //   is_client={point.is_client}
-                          // />
-                          <InfoWindow>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <p
-                                style={{ fontSize: "16px", fontWeight: "bold" }}
-                              >
-                                {point.name}
-                              </p>
-                            </div>
-                          </InfoWindow>
-                        )}
-                    </Marker>
+                    <CustomMarker
+                      handleToggleOpen={handleToggleOpen}
+                      index={index}
+                      marker={marker}
+                      open={open}
+                      point={point}
+                    />
                   );
                 })
               : ""}

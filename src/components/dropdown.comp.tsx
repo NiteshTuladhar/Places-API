@@ -1,11 +1,11 @@
-import { PlacesContext } from "@/context/placesContext";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import useAppContext from "@/hooks/useAppContext";
 
 const UserDropDown = () => {
-  const { user, setUser } = useContext(PlacesContext) as PlacesContextType;
+  const { user, setUser } = useAppContext();
   const [userList, setUsersList] = useState<UserType[]>([]);
 
   useEffect(() => {

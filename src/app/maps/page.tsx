@@ -7,7 +7,7 @@ const MapHomePage = () => {
     <div className="main-container">
       {/* Maps */}
       <Map />
-      {/* JSON Data */}
+      {/* Side bar */}
       <div className="sub-right-container">
         <div
           style={{
